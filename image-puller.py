@@ -8,7 +8,7 @@ log.basicConfig(format=FORMAT,level=log.INFO)
 
 def main(argv):
    inputfile = ''
-   outputfile = 'images-to-scan'
+   outputfile = 'images'
    try:
       opts, args = getopt.getopt(argv,"hi:o:",["ifile=","ofile="])
    except getopt.GetoptError:
@@ -32,14 +32,15 @@ def main(argv):
         sys.exit(2)
    content = manifest.read()
    images = image_regex.findall(content)
+   images = sorted(set(images))
 
    bad_characters = ','
 
    for image in images:
     for character in bad_characters:
         image=image[1].replace(character,'')
-    images_to_scan = open(outputfile,"a")
-    images_to_scan.write(image + "\n")
-    images_to_scan.close()
+    pulled_image = open(outputfile,"a")
+    pulled_image.write(image + "\n")
+    pulled_image.close()
 
 main(sys.argv[1:])
